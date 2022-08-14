@@ -25,6 +25,7 @@ jobs:
 
       - name: Compile executable
         run : |
+             cd ../../function 
              go get github.com/aws/aws-lambda-go/lambda
              GOOS=linux go build function/main.go
              zip function.zip main
