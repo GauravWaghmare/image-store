@@ -25,9 +25,9 @@ jobs:
 
       - name: Compile executable
         run : |
-             cd ../../function 
+             cd function 
              go get github.com/aws/aws-lambda-go/lambda
-             GOOS=linux go build function/main.go
+             GOOS=linux go build main.go
              zip function.zip main
 
   package:
@@ -40,7 +40,7 @@ jobs:
           aws_key_id: ${{ secrets.AWS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: './function.zip'
+          source_dir: 'function/function.zip'
           destination_dir: format('{{image_store_{0}.zip}}', $GITHUB_SHA)
 
   deploy:
