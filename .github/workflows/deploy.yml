@@ -30,12 +30,10 @@ jobs:
              GOOS=linux go build function/main.go
              zip function.zip main
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::123456789100:role/my-github-actions-role
-          aws-region: us-east-2
+  package:
+    runs-on: ubuntu-latest
 
+    steps:
       - name: Upload code as zip file to S3
         uses: shallwefootball/s3-upload-action@master
         with:
@@ -45,6 +43,9 @@ jobs:
           source_dir: './function.zip'
           destination_dir: format('{{image_store_{0}.zip}}', $GITHUB_SHA)
 
+  deploy:
+    runs-on : ubuntu-latest
+    steps:
       - name: Deploy to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
