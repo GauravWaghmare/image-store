@@ -25,13 +25,18 @@ jobs:
 
       - name: Compile executable
         run : |
-             cd function 
+             wget https://go.dev/dl/go1.19.linux-amd64.tar.gz
+             rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.linux-amd64.tar.gz
+             export PATH=$PATH:/usr/local/go/bin
+             cd handler 
              go get github.com/aws/aws-lambda-go/lambda
              GOOS=linux go build main.go
+             ls -ll
              zip function.zip main
 
   package:
     runs-on: ubuntu-latest
+    needs: build
 
     steps:
       - name: Upload code as zip file to S3
@@ -40,14 +45,16 @@ jobs:
           aws_key_id: ${{ secrets.AWS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: 'function/function.zip'
-          destination_dir: format('{{image_store_{0}.zip}}', $GITHUB_SHA)
+          source_dir: function/function.zip
+          destination_dir: ${{format('{{image_store_{0}.zip}}', $GITHUB_SHA)}}
 
   deploy:
     runs-on : ubuntu-latest
+    needs: package
+
     steps:
       - name: Deploy to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: ImageStoreStack
-          template: imageStoreStack.yaml
+          template: format('{{{0}/imageStoreStack.yaml}}', $GITHUB_WORKSPACE)
