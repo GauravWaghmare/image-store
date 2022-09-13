@@ -34,7 +34,7 @@ jobs:
              cd handler 
              go get github.com/aws/aws-lambda-go/lambda
              GOOS=linux go build main.go
-             mkdir function
+             sudo mkdir function
              zip function/function.zip main
 
       - name: Configure AWS Credentials
