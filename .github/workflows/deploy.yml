@@ -32,7 +32,7 @@ jobs:
              rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.linux-amd64.tar.gz
              export PATH=$PATH:/usr/local/go/bin
              cd handler 
-             go get github.com/aws/aws-lambda-go/lambda
+             sudo go get github.com/aws/aws-lambda-go/lambda
              GOOS=linux go build main.go
              sudo mkdir function
              zip function/function.zip main
