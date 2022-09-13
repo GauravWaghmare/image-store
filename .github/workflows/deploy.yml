@@ -45,8 +45,7 @@ jobs:
           aws-region: ap-south-1
 
       - name: Upload package to S3
-        run: |
-          aws s3 sync --delete ./function s3://image-store-packages/${{$GITHUB_SHA}}
+        run: ${{format('aws s3 sync --delete ./function s3://image-store-packages/{0}', $GITHUB_SHA)}}
 
   deploy:
     runs-on : ubuntu-latest
@@ -57,4 +56,4 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: ImageStoreStack
-          template: format('{{{0}/imageStoreStack.yaml}}', $GITHUB_WORKSPACE)
+          template: ${{format('{0}/imageStoreStack.yaml', $GITHUB_WORKSPACE)}}
