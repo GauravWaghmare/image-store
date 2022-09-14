@@ -45,7 +45,7 @@ jobs:
           aws-region: ap-south-1
 
       - name: Upload package to S3
-        run: ${{format('aws s3 sync --delete ./handler/function.zip s3://image-store-packages/{0}', github.sha)}}
+        run: ${{format('aws s3 sync --delete handler/function.zip s3://image-store-packages/{0}', github.sha)}}
 
   deploy:
     runs-on : ubuntu-latest
