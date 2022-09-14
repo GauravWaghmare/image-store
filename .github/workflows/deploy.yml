@@ -32,10 +32,10 @@ jobs:
       - name: Compile executable
         run : |
              cd handler 
-             sudo go get github.com/aws/aws-lambda-go/lambda
+             go get .
              GOOS=linux go build main.go
              sudo mkdir function
-             zip function/function.zip main
+             sudo zip function/function.zip main
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
