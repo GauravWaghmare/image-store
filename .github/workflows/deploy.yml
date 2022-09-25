@@ -52,10 +52,15 @@ jobs:
     needs: build
 
     steps:
+      - name: Check directory contents
+        run : |
+             ls
+             cd ..
+             ls
+
       - name: Deploy to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: ImageStoreStack
-#          template: ${{format('{0}/imageStoreStack.yaml', github.workspace)}}
-          template: imageStoreStack.yaml
+          template: ${{format('{0}/imageStoreStack.yaml', github.workspace)}}
           parameter-overrides: "packageVersion=${{github.sha}}"
