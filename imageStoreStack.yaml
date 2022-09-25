@@ -13,6 +13,8 @@ Parameters:
     Type: String
     AllowedPattern: "[a-zA-Z0-9]+[a-zA-Z0-9-]+[a-zA-Z0-9]+"
     Default: image-store-function
+  packageVersion:
+    Type: String
 
 Resources:
   apiGateway:
@@ -51,6 +53,8 @@ Resources:
     Properties:
       Code:
         ZipFile:
+          S3Bucket: image-store-packages
+          S3Key: !Sub '${packageVersion}/function.zip''
       Description: Image Store Handler Function
       FunctionName: !Ref lambdaFunctionName
       Handler: index.handler
