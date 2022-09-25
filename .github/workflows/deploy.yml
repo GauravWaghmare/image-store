@@ -47,20 +47,6 @@ jobs:
       - name: Upload package to S3
         run: ${{format('aws s3 sync --delete handler/function s3://image-store-packages/{0}', github.sha)}}
 
-  deploy:
-    runs-on : ubuntu-latest
-    needs: build
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::491330015265:role/github-actions-role
-          role-session-name: image-store-session
-          aws-region: ap-south-1
-
       - name: Deploy to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
