@@ -105,7 +105,11 @@ Resources:
 
 Outputs:
   apiGatewayInvokeURL:
-    Value: !Sub https://${apiGateway}.execute-api.${AWS::Region}.amazonaws.com/${apiGatewayStageName}
+    Value:
+      Fn::Sub: https://${apiGateway}.execute-api.${AWS::Region}.amazonaws.com/${apiGatewayStageName}
 
   lambdaArn:
-    Value: !GetAtt lambdaFunction.Arn
+    Value:
+      Fn::GetAtt:
+        - LambdaFunction
+        - Arn
