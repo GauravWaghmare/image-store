@@ -54,9 +54,8 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Code:
-        ZipFile:
-          S3Bucket: image-store-packages
-          S3Key: !Sub '${packageVersion}/function.zip'
+        S3Bucket: image-store-packages
+        S3Key: !Sub '${packageVersion}/function.zip'
       Description: Image Store Handler Function
       FunctionName: !Ref lambdaFunctionName
       Handler: index.handler
