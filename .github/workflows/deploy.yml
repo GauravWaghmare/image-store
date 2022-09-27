@@ -50,6 +50,6 @@ jobs:
       - name: Deploy to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: ImageStoreStack
+          name: image-store-stack
           template: ${{format('{0}/imageStoreStack.yaml', github.workspace)}}
           parameter-overrides: "packageVersion=${{github.sha}}"
