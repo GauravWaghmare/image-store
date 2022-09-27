@@ -53,3 +53,4 @@ jobs:
           name: image-store-stack
           template: ${{format('{0}/imageStoreStack.yaml', github.workspace)}}
           parameter-overrides: "packageVersion=${{github.sha}}"
+          no-fail-on-empty-changeset: "1"
