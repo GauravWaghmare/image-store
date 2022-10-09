@@ -58,7 +58,7 @@ Resources:
         S3Key: !Sub '${packageVersion}/function.zip'
       Description: Image Store Handler Function
       FunctionName: !Ref lambdaFunctionName
-      Handler: index.handler
+      Handler: main
       MemorySize: 128
       Role: !GetAtt lambdaIAMRole.Arn
       Runtime: go1.x
