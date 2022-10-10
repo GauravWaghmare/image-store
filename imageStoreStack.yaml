@@ -19,6 +19,16 @@ Parameters:
     Type: String
 
 Resources:
+  apiGatewayAuthorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      IdentitySource: method.request.header.authorization
+      Name: image-store-api-gateway-autorizer
+      ProviderARNs:
+        - !GetAtt cognitoUserPool.Arn
+      RestApiId: !Ref apiGateway
+      Type: COGNITO_USER_POOLS
+
   cognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
@@ -45,7 +55,7 @@ Resources:
   apiGatewayRootMethod:
     Type: AWS::ApiGateway::Method
     Properties:
-      AuthorizationType: NONE
+      AuthorizationType: COGNITO_USER_POOLS
       HttpMethod: !Ref apiGatewayHTTPMethod
       Integration:
         IntegrationHttpMethod: POST
