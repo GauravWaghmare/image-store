@@ -19,6 +19,18 @@ Parameters:
     Type: String
 
 Resources:
+  cognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserAttributeUpdateSettings:
+        AttributesRequireVerificationBeforeUpdate:
+          - email
+      UsernameAttributes:
+        - email
+      UsernameConfiguration:
+        CaseSensitive: False
+      UserPoolName: image-store-end-users
+
   apiGateway:
     Type: AWS::ApiGateway::RestApi
     Properties:
