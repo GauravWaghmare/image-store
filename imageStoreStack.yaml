@@ -55,6 +55,7 @@ Resources:
   apiGatewayRootMethod:
     Type: AWS::ApiGateway::Method
     Properties:
+      ApiKeyRequired: True
       AuthorizationType: COGNITO_USER_POOLS
       AuthorizerId: !GetAtt apiGatewayAuthorizer.AuthorizerId
       HttpMethod: !Ref apiGatewayHTTPMethod
