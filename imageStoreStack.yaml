@@ -22,6 +22,8 @@ Resources:
   cognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
+      AutoVerifiedAttributes:
+        - email
       UserAttributeUpdateSettings:
         AttributesRequireVerificationBeforeUpdate:
           - email
