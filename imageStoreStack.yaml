@@ -19,30 +19,6 @@ Parameters:
     Type: String
 
 Resources:
-  apiGatewayAuthorizer:
-    Type: AWS::ApiGateway::Authorizer
-    Properties:
-      IdentitySource: method.request.header.authorization
-      Name: image-store-api-gateway-autorizer
-      ProviderARNs:
-        - !GetAtt cognitoUserPool.Arn
-      RestApiId: !Ref apiGateway
-      Type: COGNITO_USER_POOLS
-
-  cognitoUserPool:
-    Type: AWS::Cognito::UserPool
-    Properties:
-      AutoVerifiedAttributes:
-        - email
-      UserAttributeUpdateSettings:
-        AttributesRequireVerificationBeforeUpdate:
-          - email
-      UsernameAttributes:
-        - email
-      UsernameConfiguration:
-        CaseSensitive: False
-      UserPoolName: image-store-end-users
-
   apiGateway:
     Type: AWS::ApiGateway::RestApi
     Properties:
@@ -55,9 +31,6 @@ Resources:
   apiGatewayRootMethod:
     Type: AWS::ApiGateway::Method
     Properties:
-      ApiKeyRequired: True
-      AuthorizationType: COGNITO_USER_POOLS
-      AuthorizerId: !GetAtt apiGatewayAuthorizer.AuthorizerId
       HttpMethod: !Ref apiGatewayHTTPMethod
       Integration:
         IntegrationHttpMethod: POST
