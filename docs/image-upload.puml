@@ -1,0 +1,46 @@
+@startuml
+autonumber
+
+Client -> APIGateway : Image upload
+APIGateway -> Cognito : Authenticate client
+
+alt authentication successfull
+
+Cognito -> APIGateway : Client authenticated
+APIGateway -> LambdaFunction : Image upload operation for the client
+
+alt image upload to S3 successfull
+
+LambdaFunction -> S3 : Upload image with unique id
+
+database DynamoDB
+
+alt database entry to DynamoDB successfull
+
+LambdaFunction -> DynamoDB : Add entry with unique id for image against user
+LambdaFunction -> APIGateway : 201 Created
+APIGateway -> Client : 201 Created
+
+else database entry to DynamoDB failure
+
+LambdaFunction -> APIGateway : 500 Internal Server Error
+APIGateway -> Client : 500 Internal Server Error
+
+end
+
+else image upload to S3 failure
+
+LambdaFunction -> APIGateway : 500 Internal Server Error
+APIGateway -> Client : 500 Internal Server Error
+
+end
+
+
+else authentication failure
+
+Cognito -> APIGateway : Client not authenticated
+APIGateway -> Client : 403 Forbidden
+
+end
+
+@enduml
